@@ -1,11 +1,12 @@
 @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
 
 :root {
-  --bg-color: #F8FAFC;
-  --text-main: #0F172A;
-  --text-sub: #64748B;
-  --brand-color: #4F46E5;
-  --mz-gradient: linear-gradient(135deg, #6366F1 0%, #A855F7 100%);
+  --bg-color: #FFF5F5; /* Very soft peach background */
+  --text-main: #2D3748; /* Softer dark text */
+  --text-sub: #718096; /* Warm gray */
+  --brand-color: #D53F8C; /* Deep warm pink/coral for better contrast */
+  --brand-light: #FEEBC8; /* Very light peach */
+  --mz-gradient: linear-gradient(135deg, #FFB8B8 0%, #E9D8FD 100%); /* Peach to Lavender */
   --font-family: 'Pretendard', 'Inter', sans-serif;
 }
 

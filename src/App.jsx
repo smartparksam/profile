@@ -4,10 +4,12 @@ import HighlightCard from './components/HighlightCard';
 import IntroCard from './components/IntroCard';
 import StandardCard from './components/StandardCard';
 import DetailScreen from './components/DetailScreen';
+import ContactModal from './components/ContactModal';
 import './App.css'; // This is empty now
 
 function App() {
   const [showDetail, setShowDetail] = useState(false);
+  const [showContactModal, setShowContactModal] = useState(false);
 
   const highlightData = {
     title: '쉽고 따뜻한 디지털·AI 교육',
@@ -34,7 +36,8 @@ function App() {
     {
       title: '강의 문의하기',
       description: '',
-      url: 'http://talk.naver.com/W41HZ2'
+      url: '#',
+      isContact: true
     }
   ];
 
@@ -64,8 +67,11 @@ function App() {
           title={link.title}
           description={link.description}
           url={link.url}
+          onClick={link.isContact ? (e) => { e.preventDefault(); setShowContactModal(true); } : undefined}
         />
       ))}
+      
+      {showContactModal && <ContactModal onClose={() => setShowContactModal(false)} />}
     </>
   );
 }
