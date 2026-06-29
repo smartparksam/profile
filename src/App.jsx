@@ -70,6 +70,16 @@ function App() {
           onClick={link.isContact ? (e) => { e.preventDefault(); setShowContactModal(true); } : undefined}
         />
       ))}
+
+      <footer className="profile-footer">
+        <p className="footer-guide">
+          스마트폰부터 생성형 AI까지<br />
+          쉽고 따뜻한 디지털·AI 교육으로 함께합니다.
+        </p>
+        <p className="footer-copyright">
+          ⓒ 박소순 디지털·AI 활용 전문강사
+        </p>
+      </footer>
       
       {showContactModal && <ContactModal onClose={() => setShowContactModal(false)} />}
     </>
