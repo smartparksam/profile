@@ -40,7 +40,7 @@ export default async function handler(req, res) {
     // 시트1에 데이터 추가
     await sheets.spreadsheets.values.append({
       spreadsheetId: SPREADSHEET_ID,
-      range: '시트1!A:F',
+      range: '\uC2DC\uD2B81!A:F',
       valueInputOption: 'USER_ENTERED',
       requestBody: {
         values: [[timestamp, sender, phone, email, title, content]],

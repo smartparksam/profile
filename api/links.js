@@ -37,7 +37,7 @@ export default async function handler(req, res) {
     // 시트2에서 데이터 가져오기 (A열: 제목, B열: 설명, C열: URL, D열: 문의버튼여부)
     const response = await sheets.spreadsheets.values.get({
       spreadsheetId: SPREADSHEET_ID,
-      range: '시트2!A:D',
+      range: '\uC2DC\uD2B82!A:D',
     });
 
     const rows = response.data.values;
