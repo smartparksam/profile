@@ -23,21 +23,12 @@ const ContactModal = ({ onClose }) => {
     setIsSubmitting(true);
     
     try {
-      // 폼서브밋(FormSubmit) 무료 API를 사용하여 스팸 로그인 화면이나 이메일 클라이언트가 뜨지 않게 백그라운드로 전송
-      await fetch("https://formsubmit.co/ajax/spss88512@naver.com", {
+      await fetch("/api/contact", {
         method: "POST",
         headers: { 
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
+          'Content-Type': 'application/json'
         },
-        body: JSON.stringify({
-          _subject: `[강의 문의] ${formData.title}`,
-          "소속 및 담당자": formData.sender,
-          "연락처(휴대폰)": formData.phone,
-          "이메일": formData.email,
-          "문의 내용": formData.content,
-          _captcha: "false"
-        })
+        body: JSON.stringify(formData)
       });
       setSubmitted(true);
     } catch (error) {

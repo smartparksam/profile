@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import ProfileHeader from './components/ProfileHeader';
 import HighlightCard from './components/HighlightCard';
 import IntroCard from './components/IntroCard';
@@ -17,29 +17,27 @@ function App() {
     url: '#'
   };
 
-  const standardLinks = [
-    {
-      title: '블로그｜스마트폰·AI 쉬운 활용법',
-      description: '',
-      url: 'https://blog.naver.com/smart_parksam'
-    },
-    {
-      title: '인스타그램｜smart_parkssam',
-      description: '',
-      url: 'https://www.instagram.com/smart_parkssam/'
-    },
-    {
-      title: '카카오 오픈채팅｜AI 디지털 전문교육',
-      description: '',
-      url: 'https://open.kakao.com/o/gvAn1Dui'
-    },
-    {
-      title: '강의 문의하기',
-      description: '',
-      url: '#',
-      isContact: true
-    }
-  ];
+  const [standardLinks, setStandardLinks] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchLinks = async () => {
+      try {
+        const response = await fetch('/api/links');
+        if (response.ok) {
+          const data = await response.json();
+          setStandardLinks(data);
+        } else {
+          console.error('Failed to fetch links');
+        }
+      } catch (error) {
+        console.error('Error fetching links:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchLinks();
+  }, []);
 
   if (showDetail) {
     return <DetailScreen onBack={() => setShowDetail(false)} />;
@@ -61,15 +59,19 @@ function App() {
       >
         <h3 className="standard-title">강사 소개 자세히 보기</h3>
       </button>
-      {standardLinks.map((link, index) => (
-        <StandardCard 
-          key={index}
-          title={link.title}
-          description={link.description}
-          url={link.url}
-          onClick={link.isContact ? (e) => { e.preventDefault(); setShowContactModal(true); } : undefined}
-        />
-      ))}
+      {isLoading ? (
+        <p style={{ textAlign: 'center', color: '#64748b' }}>링크 불러오는 중...</p>
+      ) : (
+        standardLinks.map((link, index) => (
+          <StandardCard 
+            key={index}
+            title={link.title}
+            description={link.description}
+            url={link.url}
+            onClick={link.isContact ? (e) => { e.preventDefault(); setShowContactModal(true); } : undefined}
+          />
+        ))
+      )}
 
       <footer className="profile-footer">
         <p className="footer-guide">
