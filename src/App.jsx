@@ -109,6 +109,9 @@ END:VCARD`;
             url="#"
             onClick={handleSaveContact}
           />
+          <p style={{ textAlign: 'center', fontSize: '0.85rem', color: '#64748b', marginTop: '-4px', marginBottom: '16px' }}>
+            다음에 다시 보실 수 있도록 연락처로 저장해두세요.
+          </p>
         </>
       )}
 
