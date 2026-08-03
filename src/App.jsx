@@ -56,7 +56,7 @@ function App() {
     const vcard = `BEGIN:VCARD
 VERSION:3.0
 N:박;소순;;;
-FN:박소순
+FN:강사 박소순
 TITLE:디지털·AI 활용 전문강사
 TEL;TYPE=CELL:010-4561-0427
 EMAIL:spss88512@naver.com
