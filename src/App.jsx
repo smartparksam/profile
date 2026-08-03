@@ -1,18 +1,15 @@
-import { useState, useEffect, useRef } from 'react';
-import { toPng } from 'html-to-image';
+import { useState, useEffect } from 'react';
 import ProfileHeader from './components/ProfileHeader';
 import HighlightCard from './components/HighlightCard';
 import IntroCard from './components/IntroCard';
 import StandardCard from './components/StandardCard';
 import DetailScreen from './components/DetailScreen';
 import ContactModal from './components/ContactModal';
-import BusinessCard from './components/BusinessCard';
 import './App.css'; // This is empty now
 
 function App() {
   const [showDetail, setShowDetail] = useState(false);
   const [showContactModal, setShowContactModal] = useState(false);
-  const cardRef = useRef(null);
 
   const highlightData = {
     title: '쉽고 따뜻한 디지털·AI 교육',
@@ -54,26 +51,21 @@ function App() {
     return <DetailScreen onBack={() => setShowDetail(false)} profileData={profileData} />;
   }
 
-  const handleDownloadCard = async (e) => {
+  const handleDownloadCard = (e) => {
     e.preventDefault();
-    if (cardRef.current === null) return;
-
-    try {
-      // html-to-image 라이브러리로 숨겨진 명함 요소를 캡처
-      const dataUrl = await toPng(cardRef.current, { cacheBust: true, quality: 1.0, pixelRatio: 2 });
-      
-      const link = document.createElement('a');
-      link.download = '박소순_강사_명함.png';
-      link.href = dataUrl;
-      link.click();
-      
-      setTimeout(() => {
-        alert("프로필 명함이 저장되었습니다.\n사진첩 또는 다운로드 폴더에서 확인해주세요.");
-      }, 500);
-    } catch (err) {
-      console.error('명함 저장 중 오류 발생:', err);
-      alert('저장 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
-    }
+    
+    // 모바일 하얀 화면 버그를 방지하기 위해 완성된 실제 이미지 파일 경로로 연결합니다.
+    const fileUrl = '/박소순_프로필_명함.png';
+    const link = document.createElement('a');
+    link.href = fileUrl;
+    link.download = '박소순_프로필_명함.png';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    
+    setTimeout(() => {
+      alert("프로필 명함이 저장되었습니다.\n갤러리 또는 다운로드 폴더에서 확인해주세요.");
+    }, 500);
   };
 
   return (
@@ -111,9 +103,6 @@ function App() {
             url="#"
             onClick={handleDownloadCard}
           />
-          <p style={{ textAlign: 'center', fontSize: '0.85rem', color: '#64748b', marginTop: '0.5rem', marginBottom: '2rem' }}>
-            프로필 명함을 이미지로 폰에 저장해두세요.
-          </p>
         </>
       )}
 
@@ -127,7 +116,6 @@ function App() {
       </footer>
       
       {showContactModal && <ContactModal onClose={() => setShowContactModal(false)} />}
-      <BusinessCard profileData={profileData} ref={cardRef} />
     </>
   );
 }
