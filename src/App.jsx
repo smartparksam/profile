@@ -53,25 +53,9 @@ function App() {
 
   const handleSaveContact = (e) => {
     e.preventDefault();
-    const vcard = `BEGIN:VCARD
-VERSION:3.0
-N:박;소순;;;
-FN:박소순
-TITLE:디지털·AI 활용 전문강사
-TEL;TYPE=CELL:010-4561-0427
-EMAIL:spss88512@naver.com
-URL:https://smartparksam-profile.vercel.app
-NOTE:스마트폰·생성형 AI·디지털 문해력 교육
-END:VCARD`;
-
-    const blob = new Blob([vcard], { type: 'text/vcard;charset=utf-8' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.setAttribute('download', '박소순_강사.vcf');
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    // 모바일(카카오톡 인앱 브라우저, 아이폰 등)에서 오류 없이 완벽하게 다운로드되도록
+    // 가상의 파일을 만드는 대신, 서버에 있는 실제 vcf 파일 주소로 연결합니다.
+    window.location.href = '/contact.vcf';
   };
 
   return (
