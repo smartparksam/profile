@@ -70,8 +70,12 @@ END:VCARD`;
     link.href = url;
     link.setAttribute('download', '박소순_강사.vcf');
     document.body.appendChild(link);
+    
+    alert('연락처 저장 파일을 열어 저장해주세요.');
     link.click();
+    
     document.body.removeChild(link);
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
   };
 
   return (
