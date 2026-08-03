@@ -18,40 +18,71 @@ function App() {
   };
 
   const [standardLinks, setStandardLinks] = useState([]);
+  const [profileData, setProfileData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const fetchLinks = async () => {
+    const fetchData = async () => {
       try {
-        const response = await fetch('/api/links');
-        if (response.ok) {
-          const data = await response.json();
-          setStandardLinks(data);
-        } else {
-          console.error('Failed to fetch links');
+        const [linksRes, profileRes] = await Promise.all([
+          fetch('/api/links'),
+          fetch('/api/profile')
+        ]);
+        
+        if (linksRes.ok) {
+          const linksData = await linksRes.json();
+          setStandardLinks(linksData);
+        }
+        
+        if (profileRes.ok) {
+          const profileData = await profileRes.json();
+          setProfileData(profileData);
         }
       } catch (error) {
-        console.error('Error fetching links:', error);
+        console.error('Error fetching data:', error);
       } finally {
         setIsLoading(false);
       }
     };
-    fetchLinks();
+    fetchData();
   }, []);
 
   if (showDetail) {
-    return <DetailScreen onBack={() => setShowDetail(false)} />;
+    return <DetailScreen onBack={() => setShowDetail(false)} profileData={profileData} />;
   }
+
+  const handleSaveContact = (e) => {
+    e.preventDefault();
+    const vcard = `BEGIN:VCARD
+VERSION:3.0
+N:박;소순;;;
+FN:박소순
+TITLE:디지털·AI 활용 전문강사
+TEL;TYPE=CELL:010-4561-0427
+EMAIL:spss88512@naver.com
+URL:https://smartparksam-profile.vercel.app
+NOTE:스마트폰·생성형 AI·디지털 문해력 교육
+END:VCARD`;
+
+    const blob = new Blob([vcard], { type: 'text/vcard;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', '박소순_강사.vcf');
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
 
   return (
     <>
-      <ProfileHeader />
+      <ProfileHeader profileData={profileData} />
       <HighlightCard 
-        title={highlightData.title}
-        description={highlightData.description}
-        url={highlightData.url}
+        title={profileData?.['메인제목'] || '쉽고 따뜻한 디지털·AI 교육'}
+        description={profileData?.['메인설명'] || '스마트폰부터 생성형 AI까지 함께 배웁니다.'}
+        url="#"
       />
-      <IntroCard />
+      <IntroCard profileData={profileData} />
       <button 
         className="standard-card" 
         onClick={() => setShowDetail(true)}
@@ -60,26 +91,33 @@ function App() {
         <h3 className="standard-title">강사 소개 자세히 보기</h3>
       </button>
       {isLoading ? (
-        <p style={{ textAlign: 'center', color: '#64748b' }}>링크 불러오는 중...</p>
+        <p style={{ textAlign: 'center', color: '#64748b' }}>데이터 불러오는 중...</p>
       ) : (
-        standardLinks.map((link, index) => (
+        <>
+          {standardLinks.map((link, index) => (
+            <StandardCard 
+              key={index}
+              title={link.title}
+              description={link.description}
+              url={link.url}
+              onClick={link.isContact ? (e) => { e.preventDefault(); setShowContactModal(true); } : undefined}
+            />
+          ))}
           <StandardCard 
-            key={index}
-            title={link.title}
-            description={link.description}
-            url={link.url}
-            onClick={link.isContact ? (e) => { e.preventDefault(); setShowContactModal(true); } : undefined}
+            title="연락처 저장하기"
+            description=""
+            url="#"
+            onClick={handleSaveContact}
           />
-        ))
+        </>
       )}
 
       <footer className="profile-footer">
-        <p className="footer-guide">
-          스마트폰부터 생성형 AI까지<br />
-          쉽고 따뜻한 디지털·AI 교육으로 함께합니다.
+        <p className="footer-guide" style={{ whiteSpace: 'pre-line' }}>
+          {profileData?.['하단문구'] || '디지털 초보자를 위한 스마트폰·AI 실습 교육'}
         </p>
         <p className="footer-copyright">
-          ⓒ 박소순 디지털·AI 활용 전문강사
+          ⓒ {profileData?.['이름'] || '박소순'} {profileData?.['직업'] || '디지털·AI 활용 전문강사'}
         </p>
       </footer>
       
