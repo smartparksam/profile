@@ -56,7 +56,7 @@ function App() {
     const vcard = `BEGIN:VCARD
 VERSION:3.0
 N:박;소순;;;
-FN:강사 박소순
+FN:박소순
 TITLE:디지털·AI 활용 전문강사
 TEL;TYPE=CELL:010-4561-0427
 EMAIL:spss88512@naver.com
@@ -109,7 +109,7 @@ END:VCARD`;
             url="#"
             onClick={handleSaveContact}
           />
-          <p style={{ textAlign: 'center', fontSize: '0.85rem', color: '#64748b', marginTop: '-4px', marginBottom: '16px' }}>
+          <p style={{ textAlign: 'center', fontSize: '0.85rem', color: '#64748b', marginTop: '0.5rem', marginBottom: '2rem' }}>
             다음에 다시 보실 수 있도록 연락처로 저장해두세요.
           </p>
         </>
