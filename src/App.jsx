@@ -1,15 +1,18 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { toPng } from 'html-to-image';
 import ProfileHeader from './components/ProfileHeader';
 import HighlightCard from './components/HighlightCard';
 import IntroCard from './components/IntroCard';
 import StandardCard from './components/StandardCard';
 import DetailScreen from './components/DetailScreen';
 import ContactModal from './components/ContactModal';
+import BusinessCard from './components/BusinessCard';
 import './App.css'; // This is empty now
 
 function App() {
   const [showDetail, setShowDetail] = useState(false);
   const [showContactModal, setShowContactModal] = useState(false);
+  const cardRef = useRef(null);
 
   const highlightData = {
     title: '쉽고 따뜻한 디지털·AI 교육',
@@ -51,11 +54,26 @@ function App() {
     return <DetailScreen onBack={() => setShowDetail(false)} profileData={profileData} />;
   }
 
-  const handleSaveContact = (e) => {
+  const handleDownloadCard = async (e) => {
     e.preventDefault();
-    // 모바일(카카오톡 인앱 브라우저, 아이폰 등)에서 오류 없이 완벽하게 다운로드되도록
-    // 가상의 파일을 만드는 대신, 서버에 있는 실제 vcf 파일 주소로 연결합니다.
-    window.location.href = '/contact.vcf';
+    if (cardRef.current === null) return;
+
+    try {
+      // html-to-image 라이브러리로 숨겨진 명함 요소를 캡처
+      const dataUrl = await toPng(cardRef.current, { cacheBust: true, quality: 1.0, pixelRatio: 2 });
+      
+      const link = document.createElement('a');
+      link.download = '박소순_강사_명함.png';
+      link.href = dataUrl;
+      link.click();
+      
+      setTimeout(() => {
+        alert("프로필 명함이 저장되었습니다.\n사진첩 또는 다운로드 폴더에서 확인해주세요.");
+      }, 500);
+    } catch (err) {
+      console.error('명함 저장 중 오류 발생:', err);
+      alert('저장 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
+    }
   };
 
   return (
@@ -88,13 +106,13 @@ function App() {
             />
           ))}
           <StandardCard 
-            title="연락처 저장하기"
+            title="프로필 명함 저장하기"
             description=""
             url="#"
-            onClick={handleSaveContact}
+            onClick={handleDownloadCard}
           />
           <p style={{ textAlign: 'center', fontSize: '0.85rem', color: '#64748b', marginTop: '0.5rem', marginBottom: '2rem' }}>
-            다음에 다시 보실 수 있도록 연락처로 저장해두세요.
+            프로필 명함을 이미지로 폰에 저장해두세요.
           </p>
         </>
       )}
@@ -109,6 +127,7 @@ function App() {
       </footer>
       
       {showContactModal && <ContactModal onClose={() => setShowContactModal(false)} />}
+      <BusinessCard profileData={profileData} ref={cardRef} />
     </>
   );
 }

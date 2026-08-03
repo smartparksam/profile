@@ -1,0 +1,126 @@
+.business-card-wrapper {
+  position: absolute;
+  left: -9999px; /* 화면 밖으로 숨김 */
+  top: -9999px;
+}
+
+.business-card {
+  width: 400px;
+  height: 600px;
+  background-color: #ffffff;
+  border-radius: 30px;
+  padding: 40px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 20px 40px rgba(107, 70, 193, 0.1);
+  border: 2px solid rgba(107, 70, 193, 0.1);
+  font-family: 'Pretendard', -apple-system, sans-serif;
+  color: #1a202c;
+}
+
+.bc-header {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.bc-avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #e9d8fd;
+}
+
+.bc-header-text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.bc-name {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 800;
+  color: #44337a; /* Dark purple */
+}
+
+.bc-job {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #6b46c1; /* Brand purple */
+}
+
+.bc-divider {
+  height: 1px;
+  background-color: #e2e8f0;
+  margin: 30px 0;
+  width: 100%;
+}
+
+.bc-body {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.bc-intro {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: #2d3748;
+  line-height: 1.5;
+  white-space: pre-line;
+}
+
+.bc-info {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.bc-info-item {
+  display: flex;
+  align-items: center;
+  font-size: 15px;
+}
+
+.bc-info-label {
+  width: 80px;
+  font-weight: 700;
+  color: #805ad5;
+}
+
+.bc-info-value {
+  color: #4a5568;
+  font-weight: 500;
+}
+
+.bc-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #faf5ff; /* Light purple bg */
+  padding: 20px;
+  border-radius: 20px;
+  margin-top: 20px;
+}
+
+.bc-qr-container {
+  background: white;
+  padding: 8px;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.bc-qr-text p {
+  margin: 0;
+  font-size: 13px;
+  color: #6b46c1;
+  font-weight: 600;
+  line-height: 1.5;
+  text-align: right;
+}
