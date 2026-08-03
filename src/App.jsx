@@ -68,11 +68,15 @@ END:VCARD`;
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.setAttribute('download', 'contact.vcf');
+    link.setAttribute('download', '강사_박소순_연락처.vcf');
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-    setTimeout(() => URL.revokeObjectURL(url), 100);
+    
+    setTimeout(() => {
+      URL.revokeObjectURL(url);
+      alert("연락처 파일이 다운로드되었습니다.\n다운로드된 파일을 열고 '저장'을 눌러주세요.");
+    }, 300);
   };
 
   return (
